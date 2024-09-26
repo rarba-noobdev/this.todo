@@ -6,31 +6,45 @@
     function stopMessage() {
         dispatcher("closeModal")
     }
-	/**
-	 * @type any
+
+ 
+    /**
+	 * @type {string}
 	 */
-let name; 
-	/**
+    let dueDate ;
+    /**
 	 * @type {any}
 	 */
-let description;
-// @ts-ignore
-let dueDate;
-// @ts-ignore
-let id;
+    let description ;
+    /**
+	 * @type {any}
+	 */
+    let name ;
 
 </script>
 <div class="pop-up" >
     <button id="close"   on:click={() => {stopMessage()}} style="background-color:red;padding:1px; color:black; width:max-content;"  >X</button>
-<div class="name-and-date">
-    <input aria-required="true" bind:value={name} required type="text" placeholder="name of the task" style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px;">
-    <input type="date"  aria-required="true" required  style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px; color-scheme: dark;">
+<div class="name-and-dueDate">
+    <input aria-required="true" bind:value={name}   type="text" placeholder="name of the task" style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px;">
+    <input type="date" bind:value={dueDate} aria-required="true"   style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px; color-scheme: dark;">
 </div>
 <input type="text" id="description" bind:value={description} placeholder="description" style="background-color: #021526; border:0; margin:12px; border-radius:6px;padding:4px;">
     <div class="moadal-buttons">
         <button style="background-color: #D91656;" on:click={() => {stopMessage()}} id="remove-task" >Cancel</button>
         <button  id="add-task" type="submit" style="background-color: #8FD14F;" on:click={() => { 
-            console.log("Add Button");
+
+        if ([description,name,dueDate].every((ele) => true === Boolean(ele))) {
+            $tasks =    [...$tasks,{
+               name,
+               id:132,
+               completed:false,
+            dueDate,
+            description,
+        }]  
+
+        return stopMessage()
+        }      
+        
                        
         }} >Add</button>
     </div>

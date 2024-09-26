@@ -6,7 +6,7 @@ import { tasks } from './genfunc';
 
 {#if $tasks}
 	<div class="tasks-container">
-		{#each $tasks as task (task.id)}
+		{#each $tasks as task (task.name)}
 			<div class="task">
 				<!-- Task -->
 				<div class="checkbox-wrapper-15">
