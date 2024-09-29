@@ -1,24 +1,26 @@
 <script>
+
 	import Tasks from './tasks.svelte';
-	import { tasks } from './genfunc';
+	import { showModal, tasks } from './genfunc';
 	import Modal from './modal.svelte';
 
 	let today = new Date();
 	let day = today.toLocaleDateString('en-US', { weekday: 'long' });
 	let date = today.toLocaleDateString('en-UK');
-	$: showModal = false
+	
 </script>
 
-{#if showModal}
-<Modal on:closeModal={() => {showModal = false}}></Modal>
-{/if}
+{#if $showModal}
+<Modal></Modal>
+
+	{/if}
 
 <div id="header">
 	<div class="today-info">
 		<p id="day">{day}</p>
 		<p id="date">{date}</p>
 	</div>
-	<button id="add-task-btn" on:click={() => {showModal = !showModal}}> Add Task </button>
+	<button id="add-task-btn" on:click={() => {showModal.set(!$showModal)}}> Add Task </button>
 </div>
 <div id="task-heading">
 	<p style="font-size: 2rem;">Tasks</p>

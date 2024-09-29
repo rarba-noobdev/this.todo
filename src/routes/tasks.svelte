@@ -1,14 +1,22 @@
 <script>
 
-import { tasks } from './genfunc';
+import { showModal, tasks,current } from './genfunc';
+	import Modal from './modal.svelte';
+
 
 </script>
+
+
 
 {#if $tasks}
 	<div class="tasks-container">
 		{#each $tasks as task (task.name)}
 			<div class="task">
-				<!-- Task -->
+	<button on:click={() => {showModal.set(!$showModal)
+				current.set(task)
+				// console.log(current);
+				}}
+				>hello</button>
 				<div class="checkbox-wrapper-15">
 					<input
 						class="inp-cbx"
@@ -19,7 +27,8 @@ import { tasks } from './genfunc';
 					/>
 					<label class="cbx" for={task.name}>
 						<span>
-							<svg width="12px" height="9px" viewbox="0 0 12 9">
+							<!-- <svg width="12px" height="9px" viewbox="0 0 12 9"> -->
+							<svg width="12px" height="9px" >
 								<polyline points="1 5 4 8 11 1"></polyline>
 							</svg>
 						</span>
@@ -42,6 +51,10 @@ import { tasks } from './genfunc';
 		</p>
 		<p>So add a new task by smashing that "Add Task" button</p>
 	</div>
+{/if}
+
+{#if $showModal}
+<Modal taskData={$current} ></Modal>
 {/if}
 
 <style>

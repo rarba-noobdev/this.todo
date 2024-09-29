@@ -1,52 +1,58 @@
 
 <script>
-    import { createEventDispatcher } from "svelte";
-	import { tasks } from "./genfunc";
-    const dispatcher  = createEventDispatcher()
-    function stopMessage() {
-        dispatcher("closeModal")
-    }
-
+	import { onDestroy } from "svelte";
+	import { showModal, tasks,current } from "./genfunc";
+const closeModal = () => {
+    return showModal.set(false)
+}
+   export let taskData = {
+       name: "",
+        dueDate: "",
+        description: "",
+        completed: false
+    };
  
-    /**
-	 * @type {string}
-	 */
-    let dueDate ;
-    /**
-	 * @type {any}
-	 */
-    let description ;
-    /**
-	 * @type {any}
-	 */
-    let name ;
+onDestroy(() => {
+    taskData.name = ""
+})
+console.log(taskData);
 
 </script>
 <div class="pop-up" >
-    <button id="close"   on:click={() => {stopMessage()}} style="background-color:red;padding:1px; color:black; width:max-content;"  >X</button>
-<div class="name-and-dueDate">
-    <input aria-required="true" bind:value={name}   type="text" placeholder="name of the task" style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px;">
-    <input type="date" bind:value={dueDate} aria-required="true"   style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px; color-scheme: dark;">
-</div>
-<input type="text" id="description" bind:value={description} placeholder="description" style="background-color: #021526; border:0; margin:12px; border-radius:6px;padding:4px;">
-    <div class="moadal-buttons">
-        <button style="background-color: #D91656;" on:click={() => {stopMessage()}} id="remove-task" >Cancel</button>
-        <button  id="add-task" type="submit" style="background-color: #8FD14F;" on:click={() => { 
-
-        if ([description,name,dueDate].every((ele) => true === Boolean(ele))) {
-            $tasks =    [...$tasks,{
-               name,
-               id:132,
-               completed:false,
-            dueDate,
-            description,
-        }]  
-
-        return stopMessage()
-        }      
+    <button id="close" on:click={() => {closeModal()
+        // console.log($showModal);
         
-                       
-        }} >Add</button>
+    }} style="background-color:red;padding:1px; color:black; width:max-content;"  >X</button>
+<div class="name-and-dueDate">
+    <input aria-required="true" bind:value={taskData.name}   type="text" placeholder="name of the task" style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px;">
+    <input type="date" bind:value={taskData.dueDate} aria-required="true"   style="background-color: #021526; border:0; margin:12px ; height:30px; border-radius:6px;padding:4px; color-scheme: dark;">
+</div>
+<input type="text" id="description" bind:value={taskData.description} placeholder="description" style="background-color: #021526; border:0; margin:12px; border-radius:6px;padding:4px;">
+    <div class="moadal-buttons">
+
+{#if taskData.name === "" }
+<button style="background-color: #D91656;"  id="remove-task" on:click={() => {closeModal()}} >Cancel</button>
+{:else}
+<button style="background-color: #D91656;"  id="delete-task" on:click={() => {tasks.set($tasks.filter(ele => ele !== $current));closeModal()}} >Delete</button>
+
+{/if}
+
+
+<!-- {#if }
+<button  id="add-task" type="submit" style="background-color: #8FD14F;" on:click={() => { 
+    if ([taskData.description, taskData.name, taskData.dueDate].every((ele) => Boolean(ele))) {
+    tasks.set([...$tasks, {...taskData}]);
+    closeModal()}}} >Add</button>
+
+{:else}
+<button type="submit" id="update-task" style="background-color: #8FD14F;" on:click={() => {
+    $tasks[$tasks.indexOf(taskData)] = taskData
+    closeModal()
+}}>Update</button>
+{/if} -->
+
+
+
     </div>
 </div>
 <style>
