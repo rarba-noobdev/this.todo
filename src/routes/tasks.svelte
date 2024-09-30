@@ -8,15 +8,10 @@ import { showModal, tasks,current } from './genfunc';
 
 
 
-{#if $tasks}
+{#if $tasks.length > 0}
 	<div class="tasks-container">
 		{#each $tasks as task (task.name)}
 			<div class="task">
-	<button on:click={() => {showModal.set(!$showModal)
-				current.set(task)
-				// console.log(current);
-				}}
-				>hello</button>
 				<div class="checkbox-wrapper-15">
 					<input
 						class="inp-cbx"
@@ -40,8 +35,11 @@ import { showModal, tasks,current } from './genfunc';
 					<p style="font-weight:500; color:#03346E">due on</p>
 					<p style="font-weight:600; font-size:1.2rem">{task.dueDate}</p>
 				</div>
-				<!-- Task options -->
-			</div>
+				<button id="edit-button" on:click={() => {showModal.set(!$showModal)
+					current.set(task)
+					// console.log(current);
+					}}
+					>edit</button>			</div>
 		{/each}
 	</div>
 {:else}
@@ -63,6 +61,12 @@ import { showModal, tasks,current } from './genfunc';
 		padding: 1px 10px;
 		min-width: 14%;
 		border-radius: 4px;
+	}
+
+	#edit-button {
+		background-color: #03346e;
+		padding: 4px;
+		font-weight: 500;
 	}
 
 	.task {
